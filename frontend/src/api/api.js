@@ -1,6 +1,11 @@
 import axios from 'axios'
 
-const client = axios.create({ baseURL: '/api' })
+// In local dev, Vite proxies "/api" to localhost:8000 (see vite.config.js).
+// In production (Vercel), set VITE_API_BASE_URL to your deployed backend URL,
+// e.g. https://aivoa-backend.onrender.com/api
+const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
+
+const client = axios.create({ baseURL })
 
 export const extractFromText = (text) =>
   client.post('/ai/extract-text', { text }).then((r) => r.data)
