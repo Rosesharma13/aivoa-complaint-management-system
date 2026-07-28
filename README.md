@@ -23,6 +23,14 @@ An AI-powered Complaint Management System built for the **AIVOA.AI Round 1 Assig
 
 ---
 
+## 📸 Application Preview
+
+### AI Complaint Management Dashboard
+
+![AI Complaint Management Dashboard](./screenshot/Dashboard.png)
+
+---
+
 # Model Information
 
 The original assignment referenced the `gemma2-9b-it` model. Since this model has been deprecated by Groq, this project uses **Llama 3.3 70B Versatile**, Groq's recommended production model.
