@@ -1,0 +1,29 @@
+Subject: Complaint - Discoloration observed in Metformin HCl API batch
+
+From: Rajesh Kumar, Quality Contact, Sunrise Pharma Distributors
+To: Customer Complaints, AIVOA Pharma Manufacturing
+
+Dear Team,
+
+We are writing to raise a quality complaint regarding a recent shipment of Metformin
+Hydrochloride API (Pharma Grade, 99.5% purity), Batch/Lot Number MET-2026-0417,
+manufactured on 12-Jan-2026 with an expiry date of 11-Jan-2028.
+
+During incoming QC inspection at our facility on 24-Jul-2026, we observed a slight
+yellowish discoloration in approximately 18 kg of the 200 kg drum received. The rest
+of the material appears visually normal (white to off-white crystalline powder as per
+spec). No unusual odor was noted. Certificate of Analysis values for assay and related
+substances were within specification at the time of dispatch, per the accompanying COA.
+
+This is a Level 2 complaint per our internal SOP, but given this is an API used in
+oral solid dosage manufacturing, we would like your Quality team to investigate
+possible causes (e.g., storage/transport temperature excursion, moisture ingress,
+oxidation) and confirm whether the affected quantity should be quarantined and
+whether re-testing is recommended before use.
+
+Please treat this as moderately urgent as we have a manufacturing batch scheduled
+using this lot next week.
+
+Regards,
+Rajesh Kumar
+Quality Contact, Sunrise Pharma Distributors
