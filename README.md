@@ -1,150 +1,364 @@
-# AIVOA.AI — AI-Powered Customer Complaint Management System
+# AIVOA AI-Powered Customer Complaint Management System
 
-A Customer Complaint Management System for pharmaceutical (API & FDF) manufacturing,
-built for the AIVOA.AI Round 1 assignment.
+[![Backend](https://img.shields.io/badge/backend-FastAPI-009688)](https://fastapi.tiangolo.com/)
+[![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Redux-61DAFB)](https://react.dev/)
+[![AI Workflow](https://img.shields.io/badge/AI-LangGraph-4B8BBE)](https://langchain-ai.github.io/langgraph/)
+[![LLM](https://img.shields.io/badge/LLM-Groq%20Llama%203.3%2070B-orange)](https://groq.com/)
+[![Database](https://img.shields.io/badge/database-PostgreSQL%20\(Neon\)-336791)](https://neon.tech/)
+[![Backend](https://img.shields.io/badge/backend-Render-46E3B7)](https://render.com/)
+[![Frontend](https://img.shields.io/badge/frontend-Vercel-000000)](https://vercel.com/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](#license)
 
-- **Frontend:** React + Redux Toolkit (Vite)
-- **Backend:** Python + FastAPI
-- **AI Orchestration:** LangGraph
-- **LLMs:** Groq — `gemma2-9b-it` (extraction/summary) & `llama-3.3-70b-versatile` (reasoning: risk, root cause, CAPA, duplicate check, chat)
-- **Database:** SQLAlchemy — works with PostgreSQL, MySQL, or SQLite (default, zero setup)
+An AI-powered Complaint Management System built for the **AIVOA.AI Round 1 Assignment**. The platform assists pharmaceutical quality teams by automating complaint intake, information extraction, risk assessment, duplicate detection, CAPA recommendations, and complaint summarization using **LangGraph** and **Groq LLMs**.
 
-## What it does
+## Live Demo
 
-1. **Log Customer Complaint** (left panel) — a structured QMS complaint form (origin,
-   product/batch identification, complaint details, severity/priority).
-2. **AI Complaint Intake Assistant** (right panel) — drag-and-drop a complaint
-   document (PDF/DOCX/TXT/EML) or paste raw text/email. A LangGraph pipeline runs:
-   `extract details → check completeness → classify risk → detect duplicates →
-   recommend root cause → recommend CAPA → summarize`, then auto-fills the form
-   and shows the AI's insights. A chat box lets you ask the assistant questions
-   about the currently loaded complaint.
-3. **Save Complaint** persists the record (with all AI-generated fields) to the database.
+**Frontend:** https://aivoa-complaint-management-system.vercel.app/
 
-## Project structure
+**Backend API:** https://aivoa-backend-7yai.onrender.com/
 
+**Swagger API Documentation:** https://aivoa-backend-7yai.onrender.com/docs
+
+> **Note:** The backend is hosted on Render's free tier. If the service has been idle, the first request may take **30–60 seconds** while the server wakes up.
+
+---
+
+# Model Information
+
+The original assignment referenced the `gemma2-9b-it` model. Since this model has been deprecated by Groq, this project uses **Llama 3.3 70B Versatile**, Groq's recommended production model.
+
+The overall AI pipeline, prompt engineering strategy, and LangGraph workflow remain unchanged. Only the underlying model has been updated to ensure compatibility and improved response quality.
+
+---
+
+# Project Overview
+
+Traditional complaint management systems require users to manually classify complaints, determine severity, assess risks, and identify possible root causes.
+
+This project enhances that workflow by integrating an AI-powered LangGraph pipeline capable of automatically analyzing customer complaints and generating structured recommendations before the complaint is saved.
+
+The application combines a modern React frontend with a FastAPI backend and a multi-step AI workflow to streamline pharmaceutical complaint management.
+
+---
+
+# AI Features
+
+The LangGraph workflow performs multiple AI tasks automatically:
+
+| AI Capability                    | Description                                                           |
+| -------------------------------- | --------------------------------------------------------------------- |
+| Complaint Information Extraction | Extracts structured information from emails, documents, or plain text |
+| Complaint Completeness Check     | Detects missing or incomplete information                             |
+| Risk Assessment                  | Predicts complaint severity and business impact                       |
+| Duplicate Complaint Detection    | Compares against recent complaints stored in PostgreSQL               |
+| Root Cause Recommendation        | Suggests probable causes based on complaint context                   |
+| CAPA Recommendation              | Generates corrective and preventive actions                           |
+| Complaint Summary                | Produces a concise management summary                                 |
+| AI Chat Assistant                | Answers questions related to the active complaint                     |
+
+---
+
+# Try These Example Complaints
+
+Paste one of these into the AI Assistant.
+
+### Product Quality Complaint
+
+> The customer reported that multiple tablets were broken inside the blister pack. Batch number B240315. Product received from Delhi warehouse.
+
+### Packaging Complaint
+
+> Customer received damaged outer packaging with torn labels. Batch PK2026-12. Product integrity appears affected.
+
+### Duplicate Detection Demo
+
+Submit this complaint first:
+
+> The vial leaked during transportation causing product loss.
+
+Then submit:
+
+> During delivery the vial was leaking and a significant amount of product was lost.
+
+The AI should identify these as potential duplicate complaints.
+
+---
+
+# Technology Stack
+
+## Frontend
+
+* React
+* Redux Toolkit
+* Vite
+* Axios
+
+## Backend
+
+* FastAPI
+* SQLAlchemy
+* Pydantic
+* Python 3.11
+
+## AI Layer
+
+* LangGraph
+* LangChain
+* Groq API
+* Llama 3.3 70B Versatile
+
+## Database
+
+* PostgreSQL (Neon)
+
+## Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+
+---
+
+# System Architecture
+
+```text
+Customer Complaint
+
+        │
+
+        ▼
+
+ React Frontend (Vite)
+
+        │
+
+        ▼
+
+ FastAPI Backend
+
+        │
+
+        ▼
+
+ LangGraph Workflow
+
+ ┌─────────────────────────────┐
+ │ Complaint Extraction        │
+ │ Completeness Check          │
+ │ Risk Classification         │
+ │ Duplicate Detection         │
+ │ Root Cause Recommendation   │
+ │ CAPA Recommendation         │
+ │ Complaint Summary           │
+ └─────────────────────────────┘
+
+        │
+
+        ▼
+
+ Groq Llama 3.3 70B
+
+        │
+
+        ▼
+
+ Structured JSON Response
+
+        │
+
+        ▼
+
+ Complaint Form Auto-filled
+
+        │
+
+        ▼
+
+ PostgreSQL (Neon)
 ```
-backend/
-  app/
-    main.py              FastAPI app + CORS
-    config.py             Settings (.env)
-    database.py            SQLAlchemy engine/session
-    models.py               Complaint ORM model
-    schemas.py                Pydantic request/response models
-    routers/
-      complaints.py          CRUD endpoints
-      ai_assistant.py         Extraction + chat endpoints
-    ai/
-      groq_client.py          Groq SDK wrapper (JSON + text completions)
-      prompts.py               System prompts for every AI step
-      langgraph_workflow.py    The LangGraph StateGraph pipeline
-      document_parser.py       PDF/DOCX/EML/TXT text extraction
-  requirements.txt
-  .env.example
-frontend/
-  src/
-    App.jsx
-    store/                Redux Toolkit slice + store
-    api/api.js             Axios client
-    components/
-      ComplaintForm.jsx     Left panel
-      AIAssistantPanel.jsx    Right panel (upload/paste/progress/chat/insights)
-  package.json
-sample_data/
-  sample_complaint_email.txt   Use this to test the extraction end-to-end
+
+---
+
+# Project Structure
+
+```text
+aivoa-complaint-management-system/
+
+├── backend/
+│
+├── app/
+│   ├── ai/
+│   │   ├── groq_client.py
+│   │   ├── langgraph_workflow.py
+│   │   ├── prompts.py
+│   │   └── document_parser.py
+│   │
+│   ├── routers/
+│   │   ├── complaints.py
+│   │   └── ai_assistant.py
+│   │
+│   ├── models.py
+│   ├── schemas.py
+│   ├── database.py
+│   ├── config.py
+│   └── main.py
+│
+├── requirements.txt
+├──runtime.txt
+│
+├── frontend/
+│
+├── src/
+│   ├── components/
+│   │   ├── ComplaintForm.jsx
+│   │   └── AIAssistantPanel.jsx
+│   │
+│   ├── api/
+│   │   ├── api.js
+│   ├── store/
+│   │   ├── complaintSlice.js
+│   │   ├── store.js
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── vite.config.js
+│
+├── sample_data/
+│   └── sample_complaint_email.txt
+│
+├── .gitignore
+└── README.md
 ```
 
-## 1. Get a free Groq API key
+---
 
-1. Go to https://console.groq.com and sign up (free).
-2. Create an API key under **API Keys**.
-3. Keep it handy for step 2 below.
+# Getting Started
 
-## 2. Backend setup
+## Prerequisites
+
+* Python 3.11+
+* Node.js 18+
+* Groq API Key
+* PostgreSQL Database (Neon)
+
+---
+
+## Backend
 
 ```bash
 cd backend
+
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+
+# Windows
+venv\Scripts\activate
+
+# Linux / macOS
+source venv/bin/activate
+
 pip install -r requirements.txt
 
 cp .env.example .env
-# open .env and paste your GROQ_API_KEY
 ```
 
-### Choosing a database (all free)
+Configure your `.env`
 
-The `.env` ships with `DATABASE_URL=sqlite:///./aivoa_complaints.db` by default —
-**this needs zero setup**, good for getting the demo running immediately.
+```env
+GROQ_API_KEY=YOUR_API_KEY
 
-To satisfy the assignment's "MySQL/Postgres SQL" requirement, PostgreSQL is easy to
-run for free:
+DATABASE_URL=YOUR_NEON_DATABASE_URL
+```
 
-- **Local install (free, no subscription):** install PostgreSQL, create a database
-  `aivoa_complaints`, then set:
-  `DATABASE_URL=postgresql+psycopg2://postgres:<password>@localhost:5432/aivoa_complaints`
-- **Free hosted Postgres (no local install):** create a free project on
-  [Neon](https://neon.tech) or [Supabase](https://supabase.com) and paste the
-  connection string they give you into `DATABASE_URL`.
-- For MySQL instead, install `mysqlclient` or `pymysql` and use a
-  `mysql+pymysql://user:pass@localhost/aivoa_complaints` URL — MySQL Community
-  Server is free and open-source too.
-
-Then run the API:
+Start the server
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload
 ```
 
-Visit http://localhost:8000/docs for interactive API docs, and
-http://localhost:8000/api/health to confirm your Groq key is picked up.
+Backend:
 
-## 3. Frontend setup
+http://localhost:8000
+
+Swagger Docs:
+
+http://localhost:8000/docs
+
+---
+
+## Frontend
 
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
 ```
 
-Visit http://localhost:5173. The Vite dev server proxies `/api` calls to the
-backend on port 8000.
+Runs at
 
-## 4. Try it out
+http://localhost:5173
 
-1. Open the app — the right panel shows the AI Complaint Intake Assistant.
-2. Paste the contents of `sample_data/sample_complaint_email.txt` into the
-   "Paste Complaint Text / Email" box (or upload a PDF/DOCX/TXT/EML version of it),
-   then click **Extract from Text**.
-3. Watch the extraction progress, then review the auto-filled form (highlighted
-   fields) and the AI Insights: completeness score, risk classification, root
-   cause recommendation, CAPA recommendation, summary, and duplicate check.
-4. Adjust any field manually if needed, then click **Save Complaint**.
-5. Use the chat box to ask the assistant questions like *"Why was this classified
-   as Major risk?"* or *"What CAPA did you recommend?"*.
+---
 
-## How this maps to the assignment's LangGraph / AI requirements
+# API Endpoints
 
-| Bonus feature | Where it's implemented |
-|---|---|
-| Complaint Completeness Checker | `node_completeness_check` in `langgraph_workflow.py` |
-| Root Cause Recommendation | `node_root_cause` |
-| Duplicate Complaint Detection | `node_duplicate_detection` (compares against last 50 saved complaints) |
-| CAPA Recommendation | `node_capa` |
-| Complaint Summary | `node_summarize` |
-| AI Risk Classification | `node_risk_classification` |
+| Endpoint          | Method | Description                      |
+| ----------------- | ------ | -------------------------------- |
+| `/api/ai/analyze` | POST   | Run LangGraph complaint analysis |
+| `/api/ai/chat`    | POST   | AI Assistant conversation        |
+| `/api/complaints` | GET    | List saved complaints            |
+| `/api/complaints` | POST   | Save complaint                   |
+| `/api/health`     | GET    | Backend health check             |
 
-Each node is a discrete LangGraph node so the graph, state, and prompts can each be
-explained independently in your demo video walkthrough (frontend → API endpoint →
-LangGraph node → Groq call → response → form population), as required in the
-"Deliverables" section of the assignment.
+---
 
-## Notes
+# Engineering Challenges
 
-- Production-grade OCR isn't implemented (not required per the assignment) —
-  `document_parser.py` covers PDF text layers, DOCX, EML, and plain text, which is
-  enough for realistic demo documents you create yourself.
-- All AI calls go through `groq_client.py` so swapping models (e.g. trying
-  `llama-3.3-70b-versatile` for extraction too) is a one-line change in `.env`.
-- Do not commit your real `.env` file (it's already listed conceptually as
-  secret — create a `.gitignore` with `.env` and `venv/` before pushing to GitHub).
+During development several real-world engineering issues were encountered and resolved.
+
+### LangGraph State Management
+
+Resolved workflow state collisions by redesigning node outputs and assigning dedicated state keys, ensuring reliable execution across all AI stages.
+
+### Groq Model Migration
+
+Updated the project from Groq's deprecated Gemma model to **Llama 3.3 70B Versatile** without changing the workflow architecture or prompt logic.
+
+### Database Integration
+
+Integrated PostgreSQL (Neon) using SQLAlchemy and verified complaint persistence with duplicate detection against previously stored complaints.
+
+---
+
+# Future Enhancements
+
+* OCR support for scanned complaint documents
+* Email inbox integration
+* Complaint analytics dashboard
+* User authentication & role-based access
+* Audit history and complaint versioning
+* Multi-language complaint processing
+
+---
+
+# License
+
+MIT License
+
+---
+
+# Author
+
+**Rose Sharma**
+
+B.Tech Computer Science Engineering (Artificial Intelligence)
+
+**GitHub:** https://github.com/Rosesharma13
+
+**LinkedIn:** https://www.linkedin.com/in/rose-sharma13
+
+---
+
+⭐ If you found this project interesting, consider giving the repository a star.
