@@ -3,7 +3,7 @@ LangGraph workflow for the AI Complaint Intake Assistant.
 
 Graph shape:
 
-    extract_details --> completeness_check --> risk_classification
+    extract_details --> completeness_check --> classify_risk
         --> duplicate_detection --> root_cause --> capa --> summarize --> END
 
 Each node calls Groq (gemma2-9b-it for the lighter extraction/completeness steps,
@@ -129,7 +129,10 @@ def build_graph():
 
     graph.add_node("extract_details", node_extract_details)
     graph.add_node("completeness_check", node_completeness_check)
-    graph.add_node("risk_classification", node_risk_classification)
+    # NOTE: node id renamed from "risk_classification" to "classify_risk" —
+    # LangGraph does not allow a node id to match a key already declared in
+    # the state schema, and ComplaintState already has a "risk_classification" field.
+    graph.add_node("classify_risk", node_risk_classification)
     graph.add_node("duplicate_detection", node_duplicate_detection)
     graph.add_node("root_cause", node_root_cause)
     graph.add_node("capa", node_capa)
@@ -137,8 +140,8 @@ def build_graph():
 
     graph.set_entry_point("extract_details")
     graph.add_edge("extract_details", "completeness_check")
-    graph.add_edge("completeness_check", "risk_classification")
-    graph.add_edge("risk_classification", "duplicate_detection")
+    graph.add_edge("completeness_check", "classify_risk")
+    graph.add_edge("classify_risk", "duplicate_detection")
     graph.add_edge("duplicate_detection", "root_cause")
     graph.add_edge("root_cause", "capa")
     graph.add_edge("capa", "summarize")
